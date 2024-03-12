@@ -1,0 +1,86 @@
+<div class="contenu-carte" style="background: url('/assets/img/mapdemo.png') center/cover;">
+    <div class="tete-carte">
+        <div>
+            <input type="text" class="form-control recherche" id="" placeholder="Essayez 'Vélo Stationnaire'">
+        </div>
+        <span style="flex-grow: 1;"></span>
+        <button class="btn btn-primary">Se connecter</button>
+
+    </div>
+    <div class="card"
+        style="position: fixed; top:60px; left:13px; background-color: white; max-width: 600px; width: 100%; min-height: 300px; border-radius: 20px; padding: 12px;">
+        <h6>Que voulez-vous faire aujourd'hui?</h6>
+        <div class="row">
+
+        </div>
+    </div>
+
+    <style>
+        .menu-amenagements {
+            position: fixed;
+            bottom: 20px;
+            left: 13px;
+            background-color: white;
+            max-width: 800px;
+            width: 100%;
+            min-height: 500px;
+            border-radius: 20px;
+            padding: 12px;
+        }
+
+        .menu-amenagements-header{
+            width:100%; 
+            height: 40px; 
+            display: flex; 
+            align-items: center; 
+            gap: 5px;
+        }
+    </style>
+
+    <div class="card menu-amenagements">
+        <div class="menu-amenagements-header">
+            <h5 class="m-0 flex-grow-1">Aménagements du parc Jean Drapeau</h5>
+
+            <button type="button" class="btn btn-outline-danger btn-sm">Signaler</button>
+            <button type="button" class="btn btn-icon btn-sm"><span class="icon icon-close"></span></button>
+
+        </div>
+        <div class="list-group my-2">
+            <div class="list-group-item d-flex align-items-center">
+                <span class="icon icon-bike icon-24px"></span>
+                <div class="flex-grow-1" style="padding: 0 10px;">
+                    <h6 class="m-0">Vélo Stationnaire</h6>
+                    <p class="text-muted m-0"><small>Lorem, ipsum dolor sit amet.</small></p>
+                </div>
+                <span class="badge text-bg-danger rounded-pill"><span class="icon icon-alert icon-18px"></span></span>
+            </div>
+            <div class="list-group-item d-flex align-items-center">
+                <span class="icon icon-hand-back-left icon-24px"></span>
+                <div class="flex-grow-1" style="padding: 0 10px;">
+                    <h6 class="m-0">Barre pull-up</h6>
+                    <p class="text-muted m-0"><small>Lorem, ipsum dolor sit amet.</small></p>
+                </div>
+            </div>
+            <button type="button" class="list-group-item list-group-item-action"><small><span
+                        class="icon icon-plus"></span> Suggérer</small></button>
+        </div>
+        <div class="row">
+
+        </div>
+    </div>
+</div>
+
+<style>
+    .contenu-carte {
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .tete-carte {
+        width: 100%;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        padding: 0 15px;
+    }
+</style>
