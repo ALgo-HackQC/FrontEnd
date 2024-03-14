@@ -1,6 +1,7 @@
-<div class="contenu-carte" style="background: url('/assets/img/mapdemo.png') center/cover;">
+<div class="contenu-carte">
     <div class="tete-carte">
-        <div style="width: 44px; height:44px; background-color:white; border-radius: 50%; background-image: url('/assets/img/logo.png'); background-position: center; background-size: cover; border: 1px solid #d2d2d2;">
+        <div
+            style="width: 44px; height:44px; background-color:white; border-radius: 50%; background-image: url('/assets/img/logo.png'); background-position: center; background-size: cover; border: 1px solid rgba(0, 0, 0, 0.175);">
 
         </div>
         <div class="position-relative">
@@ -11,47 +12,71 @@
         </div>
         <span class="flex-grow-1"></span>
         <button type="button" class="btn btn-icon btn-sm"><span class="icon icon-help-circle-outline"></span></button>
-        <button class="btn btn-primary bouton-connexion">Se connecter</button>
+        <button class="btn btn-primary bouton-connexion" (click)="toggle_connexion()">Connexion</button>
 
     </div>
+
+    <div id="ol-map" class="map-container" style="width: 100%; height:100%"></div>
+
+
+    <style>
+        .btn-tuile{
+            padding: 10px; 
+            text-align:center;
+            user-select: none;
+            transition: 0.3s;
+            border-radius: 10px;
+            user-select: none;
+        }
+
+        .btn-tuile:hover{
+            background-color: rgba(128, 128, 128, 0.3);
+        }
+
+        
+        .btn-tuile>p{
+            line-height: 14px;
+        }
+    </style>
+
     <div class="card"
-        style="position: fixed; top:60px; left:13px; background-color: white; max-width: 600px; width: 100%; min-height: 300px; border-radius: 20px; padding: 12px;">
+        style="position: absolute; top:60px; left:13px; background-color: white; max-width: 600px; width: 100%; min-height: 300px; border-radius: 20px; padding: 12px;">
         <h6>Que voulez-vous faire aujourd'hui?</h6>
         <div class="row">
-            <div class="col col-12 col-md-2" style="padding: 10px; text-align:center">
+            <div class="col col-12 col-md-2 btn-tuile">
                 <span class="icon icon-bike icon-36px"></span>
-                <p class="m-0" style="line-height: 14px;"><small>Velo</small></p>
+                <p class="m-0"><small>Velo</small></p>
             </div>
-            <div class="col col-12 col-md-2" style="padding: 10px; text-align:center">
+            <div class="col col-12 col-md-2 btn-tuile">
                 <span class="icon icon-tennis icon-36px"></span>
-                <p class="m-0" style="line-height: 14px;"><small>Tennis</small></p>
+                <p class="m-0"><small>Tennis</small></p>
             </div>
-            <div class="col col-12 col-md-2" style="padding: 10px; text-align:center">
+            <div class="col col-12 col-md-2 btn-tuile">
                 <span class="icon icon-table-tennis icon-36px"></span>
-                <p class="m-0" style="line-height: 14px;"><small>Ping-Pong</small></p>
+                <p class="m-0"><small>Ping-Pong</small></p>
             </div>
-            <div class="col col-12 col-md-2" style="padding: 10px; text-align:center">
+            <div class="col col-12 col-md-2 btn-tuile">
                 <span class="icon icon-pool icon-36px"></span>
-                <p class="m-0" style="line-height: 14px;"><small>Piscine</small></p>
+                <p class="m-0"><small>Piscine</small></p>
             </div>
-            <div class="col col-12 col-md-2" style="padding: 10px; text-align:center">
+            <div class="col col-12 col-md-2 btn-tuile">
                 <span class="icon icon-pool icon-36px"></span>
-                <p class="m-0" style="line-height: 14px;"><small>Piscine</small></p>
+                <p class="m-0"><small>Piscine</small></p>
             </div>
-            <div class="col col-12 col-md-2" style="padding: 10px; text-align:center">
+            <div class="col col-12 col-md-2 btn-tuile">
                 <span class="icon icon-pool icon-36px"></span>
-                <p class="m-0" style="line-height: 14px;"><small>Piscine</small></p>
+                <p class="m-0"><small>Piscine</small></p>
             </div>
-            <div class="col col-12 col-md-2" style="padding: 10px; text-align:center">
+            <div class="col col-12 col-md-2 btn-tuile">
                 <span class="icon icon-pool icon-36px"></span>
-                <p class="m-0" style="line-height: 14px;"><small>Piscine</small></p>
+                <p class="m-0"><small>Piscine</small></p>
             </div>
         </div>
     </div>
 
     <style>
         .menu-amenagements {
-            position: fixed;
+            position: absolute;
             bottom: 20px;
             left: 13px;
             background-color: white;
@@ -62,11 +87,11 @@
             padding: 12px;
         }
 
-        .menu-amenagements-header{
-            width:100%; 
-            height: 40px; 
-            display: flex; 
-            align-items: center; 
+        .menu-amenagements-header {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            align-items: center;
             gap: 5px;
         }
     </style>
@@ -75,7 +100,7 @@
         <div class="menu-amenagements-header">
             <h5 class="m-0 flex-grow-1">Aménagements du parc Jean Drapeau</h5>
 
-            <button type="button" class="btn btn-outline-danger btn-sm">Signaler</button>
+            <button type="button" class="btn btn-outline-danger btn-sm" (click)="toggle_report()">Signaler</button>
             <button type="button" class="btn btn-icon btn-sm"><span class="icon icon-close"></span></button>
 
         </div>
@@ -86,8 +111,9 @@
                     <div class="flex-grow-1 px-3">
                         <h6 class="m-0">Vélo Stationnaire</h6>
                         <p class="text-muted m-0"><small>Lorem, ipsum dolor sit amet.</small></p>
-                    </div>                      
-                    <span class="icon icon-alert icon-24px text-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top"></span>
+                    </div>
+                    <span class="icon icon-alert icon-24px text-danger" data-bs-toggle="tooltip" data-bs-placement="top"
+                        data-bs-title="Tooltip on top"></span>
                 </div>
                 <div class="list-group-item d-flex align-items-center">
                     <span class="icon icon-hand-back-left icon-24px"></span>
@@ -113,18 +139,82 @@
     </div>
 </div>
 
-<style>
-    .contenu-carte {
-        width: 100vw;
-        height: 100vh;
-    }
 
-    .tete-carte {
-        width: 100%;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        padding: 0 15px;
-        gap: 5px;
-    }
-</style>
+<div class="modal-bg" *ngIf="afficher_connexion">
+    <div class="modal-contenu">
+        <div class="modal-tete">
+            <button type="button" class="btn btn-icon btn-sm" (click)="toggle_connexion()"><span
+                    class="icon icon-close"></span></button>
+            <span class="icon icon-account-circle icon-36px"></span>
+            <p class="display-6">Se connecter</p>
+        </div>
+        <div class="fenetre-contenu">
+            <form>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Adresse Courriel</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Mot de passe</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1">
+                </div>
+                <br>
+                <br>
+                <br>
+                <button class="btn btn-primary w-100">Se Connecter</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal-bg modal-bg-danger" *ngIf="afficher_report">
+    <div class="modal-contenu">
+        <div class="modal-tete text-bg-danger">
+            <button type="button" class="btn btn-icon btn-sm" (click)="toggle_report()"><span
+                    class="icon icon-close"></span></button>
+            <span class="icon icon-alert icon-36px"></span>
+            <p class="display-6">Signaler un problème</p>
+            <p class="m-0"><small>Parc Jean-Drapeau</small></p>
+        </div>
+        <div class="fenetre-contenu">
+            <form>
+                <p class="mb-1"><small>Quelle est l'infrastructure affectée?</small></p>
+                <ul class="list-group mb-3">
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="firstRadio"
+                            checked>
+                        <label class="form-check-label" for="firstRadio"><span class="icon icon-bike mx-1"></span>Vélo
+                            Stationnaire</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="radio" name="listGroupRadio" value=""
+                            id="secondRadio">
+                        <label class="form-check-label" for="secondRadio"><span
+                                class="icon icon-hand-back-left mx-1"></span>Barre pull-up</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="radio" name="listGroupRadio" value=""
+                            id="thirdRadio">
+                        <label class="form-check-label" for="thirdRadio"><span
+                                class="icon icon-table-tennis mx-1"></span>Ping Pong</label>
+                    </li>
+                </ul>
+
+                <div class="mb-3">
+                    <label for="type_probleme" class="form-label"><small>Type de problème</small></label>
+                    <select class="form-select" id="type_probleme">
+                        <option value="1" selected>Équipement endommagé</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description_probleme" class="form-label"><small>Description du problème</small></label>
+                    <textarea class="form-control" id="description_probleme" rows="3"></textarea>
+                </div>
+                <button class="btn btn-danger w-100">Envoyer</button>
+            </form>
+        </div>
+    </div>
+</div>
