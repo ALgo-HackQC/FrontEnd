@@ -1,0 +1,8 @@
+<input type="number" [(ngModel)]="locationId" placeholder="Enter location id">
+<button (click)="getLocation(locationId)">Get Location</button>
+
+<div *ngIf="location">
+  <p>Location ID: {{location.id}}</p>
+  <p>Longitude: {{location.longitude}}</p>
+  <p>Latitude: {{location.latitude}}</p>
+</div>
