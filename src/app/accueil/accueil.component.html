@@ -1,26 +1,44 @@
 <div class="contenu-carte">
-    <div class="tete-carte">
-        <div class="zone-logo">
+  <div class="tete-carte">
+    <div class="zone-logo"></div>
+    <div class="position-relative">
+      <input
+        type="text"
+        class="form-control recherche"
+        id=""
+        placeholder="Essayez 'Vélo Stationnaire'"
+      />
+      <div
+        class="spinner-border spinner-border-sm"
+        role="status"
+        *ngIf="enChargement"
+      >
+        <span class="visually-hidden">Chargement...</span>
+      </div>
+    </div>
+    <select
+      [(ngModel)]="region"
+      (change)="save_region()"
+      class="form-select selection-region"
+    >
+      <option value="saguenay">Saguenay</option>
+      <option value="shawinigan">Shawinigan</option>
+    </select>
+    <div style="height: 44px; border-radius: 20px">
+      <p></p>
+    </div>
+    <span class="flex-grow-1"></span>
+    <button type="button" class="btn btn-icon btn-sm">
+      <span class="icon icon-help-circle-outline"></span>
+    </button>
+    <button
+      class="btn btn-primary bouton-connexion"
+      (click)="toggle_connexion()"
+    >
+      Connexion
+    </button>
 
-        </div>
-        <div class="position-relative">
-            <input type="text" class="form-control recherche" id="" placeholder="Essayez 'Vélo Stationnaire'">
-            <div class="spinner-border spinner-border-sm" role="status" *ngIf="enChargement">
-                <span class="visually-hidden">Chargement...</span>
-            </div>
-        </div>
-        <select [(ngModel)]="region" (change)="save_region()" class="form-select selection-region">
-            <option value="saguenay">Saguenay</option>
-            <option value="shawinigan">Shawinigan</option>
-          </select>
-        <div style="height: 44px; border-radius:20px">
-            <p></p>
-        </div>
-        <span class="flex-grow-1"></span>
-        <button type="button" class="btn btn-icon btn-sm"><span class="icon icon-help-circle-outline"></span></button>
-        <button class="btn btn-primary bouton-connexion" (click)="toggle_connexion()">Connexion</button>
-
-        <!--div class="card suggestions-recherche">
+    <!--div class="card suggestions-recherche">
             <h6>Que voulez-vous faire aujourd'hui?</h6>
             <div class="row">
                 <div class="col col-12 col-md-2 btn-tuile">
@@ -41,151 +59,310 @@
                 </div>
             </div>
         </div-->
+  </div>
+
+  <div
+    id="ol-map"
+    class="map-container"
+    style="width: 100vw; height: 100vh"
+  ></div>
+
+  <div class="card menu-amenagements" *ngIf="afficher_details">
+    <div class="menu-amenagements-header">
+      <h5 class="m-0 flex-grow-1">
+        Aménagement de {{ detailsCourants[0].detail }}
+      </h5>
+
+      <button
+        type="button"
+        class="btn btn-outline-danger btn-sm"
+        (click)="toggle_report()"
+      >
+        Signaler
+      </button>
+      <button
+        type="button"
+        class="btn btn-icon btn-sm"
+        (click)="cacher_details()"
+      >
+        <span class="icon icon-close"></span>
+      </button>
     </div>
-
-    <div id="ol-map" class="map-container" style="width: 100vw; height:100vh"></div>
-
-    <div class="card menu-amenagements" *ngIf="afficher_details">
-        <div class="menu-amenagements-header">
-            <h5 class="m-0 flex-grow-1">Aménagement de {{ detailsCourants[0].detail }}</h5>
-
-            <button type="button" class="btn btn-outline-danger btn-sm" (click)="toggle_report()">Signaler</button>
-            <button type="button" class="btn btn-icon btn-sm" (click)="cacher_details()"><span
-                    class="icon icon-close"></span></button>
-
+    <div>
+      <div class="list-group my-2">
+        <div
+          class="list-group-item d-flex align-items-center"
+          *ngFor="let detail of detailsCourants; index as i"
+        >
+          <span class="icon icon-24px" [ngClass]="'icon-' + detail.icon"></span>
+          <div class="flex-grow-1 px-3">
+            <h6 class="m-0">{{ detail.caracteristique }}</h6>
+            <p class="text-muted m-0">
+              <small>{{ detail.detail }}</small>
+            </p>
+          </div>
         </div>
-        <div>
-            <div class="list-group my-2">
-                
-                <div class="list-group-item d-flex align-items-center" *ngFor="let detail of detailsCourants; index as i">
-                    <span class="icon icon-24px" [ngClass]="'icon-' + detail.icon"></span>
-                    <div class="flex-grow-1 px-3">
-                        <h6 class="m-0">{{ detail.caracteristique }}</h6>
-                        <p class="text-muted m-0"><small>{{ detail.detail }}</small></p>
-                    </div>
-                </div>
-                <button type="button" class="list-group-item list-group-item-action"><small><span
-                            class="icon icon-plus"></span> Suggérer</small></button>
-            </div>
-        </div>
-        <div class="row">
-
-        </div>
+        <button
+          type="button"
+          class="list-group-item list-group-item-action"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          <small><span class="icon icon-plus"></span> Suggérer</small>
+        </button>
+      </div>
     </div>
+    <div class="row"></div>
+  </div>
 </div>
 
-
 <div class="modal-bg" *ngIf="afficher_connexion">
-    <div class="modal-contenu">
-        <div class="modal-tete">
-            <button type="button" class="btn btn-icon btn-sm" (click)="toggle_connexion()"><span
-                    class="icon icon-close"></span></button>
-            <span class="icon icon-account-circle icon-36px"></span>
-            <p class="display-6">Se connecter</p>
-        </div>
-        <div class="fenetre-contenu">
-            <form>
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Adresse Courriel</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Mot de passe</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1">
-                </div>
-                <br>
-                <br>
-                <br>
-                <button class="btn btn-primary w-100">Se Connecter</button>
-            </form>
-        </div>
+  <div class="modal-contenu">
+    <div class="modal-tete">
+      <button
+        type="button"
+        class="btn btn-icon btn-sm"
+        (click)="toggle_connexion()"
+      >
+        <span class="icon icon-close"></span>
+      </button>
+      <span class="icon icon-account-circle icon-36px"></span>
+      <p class="display-6">Se connecter</p>
     </div>
+    <div class="fenetre-contenu">
+      <form>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label"
+            >Adresse Courriel</label
+          >
+          <input
+            type="email"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label"
+            >Mot de passe</label
+          >
+          <input
+            type="password"
+            class="form-control"
+            id="exampleInputPassword1"
+          />
+        </div>
+        <br />
+        <br />
+        <br />
+        <button class="btn btn-primary w-100">Se Connecter</button>
+      </form>
+    </div>
+  </div>
 </div>
 
 <div class="modal-bg modal-bg-danger" *ngIf="afficher_report">
-    <div class="modal-contenu">
-        <div class="modal-tete text-bg-danger">
-            <button type="button" class="btn btn-icon btn-sm" (click)="toggle_report()"><span
-                    class="icon icon-close"></span></button>
-            <span class="icon icon-alert icon-36px"></span>
-            <p class="display-6">Signaler un problème</p>
-            <p class="m-0"><small>Parc Jean-Drapeau</small></p>
-        </div>
-        <div class="fenetre-contenu">
-            <form>
-                <p class="mb-1"><small>L'infrastructure affectée?</small></p>
-                <ul class="list-group mb-3">
-                    <li class="list-group-item">
-                        <input class="form-check-input me-1" type="radio" name="listGroupRadio" value=""
-                            id="thirdRadio">
-                        <label class="form-check-label" for="thirdRadio"><span
-                                class="icon icon-table-tennis mx-1"></span>Ping Pong</label>
-                    </li>
-                </ul>
-
-                <div class="mb-3">
-                    <label for="type_probleme" class="form-label"><small>Type de problème</small></label>
-                    <select class="form-select" id="type_probleme">
-                        <option value="1" selected>Équipement endommagé</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label for="description_probleme" class="form-label"><small>Description du problème</small></label>
-                    <textarea class="form-control" id="description_probleme" rows="3"></textarea>
-                </div>
-                <button class="btn btn-danger w-100">Envoyer</button>
-            </form>
-        </div>
+  <div class="modal-contenu">
+    <div class="modal-tete text-bg-danger">
+      <button
+        type="button"
+        class="btn btn-icon btn-sm"
+        (click)="toggle_report()"
+      >
+        <span class="icon icon-close"></span>
+      </button>
+      <span class="icon icon-alert icon-36px"></span>
+      <p class="display-6">Signaler un problème</p>
+      <p class="m-0"><small>Parc Jean-Drapeau</small></p>
     </div>
+    <div class="fenetre-contenu">
+      <form>
+        <p class="mb-1"><small>L'infrastructure affectée?</small></p>
+        <ul class="list-group mb-3">
+          <li class="list-group-item">
+            <input
+              class="form-check-input me-1"
+              type="radio"
+              name="listGroupRadio"
+              value=""
+              id="thirdRadio"
+            />
+            <label class="form-check-label" for="thirdRadio"
+              ><span class="icon icon-table-tennis mx-1"></span>Ping Pong</label
+            >
+          </li>
+        </ul>
+
+        <div class="mb-3">
+          <label for="type_probleme" class="form-label"
+            ><small>Type de problème</small></label
+          >
+          <select class="form-select" id="type_probleme">
+            <option value="1" selected>Équipement endommagé</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="description_probleme" class="form-label"
+            ><small>Description du problème</small></label
+          >
+          <textarea
+            class="form-control"
+            id="description_probleme"
+            rows="3"
+          ></textarea>
+        </div>
+        <button class="btn btn-danger w-100">Envoyer</button>
+      </form>
+    </div>
+  </div>
 </div>
 
 <div class="modal-bg modal-bg-success" *ngIf="afficher_suggerer">
-    <div class="modal-contenu">
-        <div class="modal-tete text-bg-success">
-            <button type="button" class="btn btn-icon btn-sm" (click)="toggle_suggerer()"><span
-                    class="icon icon-close"></span></button>
-            <span class="icon icon-creation icon-36px"></span>
-            <p class="display-6">Suggérer une instalation</p>
-        </div>
-        <div class="fenetre-contenu">
-            <form>
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label"><small>Nom de l'installation</small></label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                </div>
-                <div class="mb-3">
-                    <label for="description_probleme" class="form-label"><small>Description</small></label>
-                    <textarea class="form-control" id="description_probleme" rows="3"></textarea>
-                </div>
-                <button class="btn btn-success w-100">Envoyer</button>
-            </form>
-        </div>
+  <div class="modal-contenu">
+    <div class="modal-tete text-bg-success">
+      <button
+        type="button"
+        class="btn btn-icon btn-sm"
+        (click)="toggle_suggerer()"
+      >
+        <span class="icon icon-close"></span>
+      </button>
+      <span class="icon icon-creation icon-36px"></span>
+      <p class="display-6">Suggérer une instalation</p>
     </div>
+    <div class="fenetre-contenu">
+      <form>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label"
+            ><small>Nom de l'installation</small></label
+          >
+          <input
+            type="email"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="description_probleme" class="form-label"
+            ><small>Description</small></label
+          >
+          <textarea
+            class="form-control"
+            id="description_probleme"
+            rows="3"
+          ></textarea>
+        </div>
+        <button class="btn btn-success w-100">Envoyer</button>
+      </form>
+    </div>
+  </div>
 </div>
 
-
-
 <div class="modal-bg modal-bg-bleu" *ngIf="afficher_region">
-    <div class="modal-contenu modal-region">
-        <div class="fenetre-contenu text-center">
-            <span class="icon icon-map-marker-circle icon-48px"></span>
-            <p class="display-6">Sélectionnez votre région</p>
-            <div class="list-group my-3">
-                <button type="button" class="list-group-item list-group-item-action"
-                    (click)="set_region('saguenay')">Saguenay</button>
-                <button type="button" class="list-group-item list-group-item-action"
-                    (click)="set_region('shawinigan')">Shawinigan</button>
-            </div>
-            <p class="m-0"><small>(La région peut être changée plus tard)</small></p>
-        </div>
+  <div class="modal-contenu modal-region">
+    <div class="fenetre-contenu text-center">
+      <span class="icon icon-map-marker-circle icon-48px"></span>
+      <p class="display-6">Sélectionnez votre région</p>
+      <div class="list-group my-3">
+        <button
+          type="button"
+          class="list-group-item list-group-item-action"
+          (click)="set_region('saguenay')"
+        >
+          Saguenay
+        </button>
+        <button
+          type="button"
+          class="list-group-item list-group-item-action"
+          (click)="set_region('shawinigan')"
+        >
+          Shawinigan
+        </button>
+      </div>
+      <p class="m-0"><small>(La région peut être changée plus tard)</small></p>
     </div>
+  </div>
 </div>
 
 <button class="btn btn-primary bouton-suggerer" (click)="toggle_suggerer()">
-    <span class="icon icon-lightbulb-on"></span>
-  </button>
+  <span class="icon icon-lightbulb-on"></span>
+</button>
 
-  
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Formulaire</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form #formConnexion="ngForm">
+          <div class="mb-3">
+            <label for="name" class="form-label">Nom :</label>
+            <input
+              type="text"
+              id="name"
+              formControlName="name"
+              class="form-control"
+              name="name"
+              
+              
+            />
+          </div>
+          <div class="mb-3">
+            <label for="type" class="form-label">Type :</label>
+            <input
+              type="text"
+              id="type"
+              formControlName="type"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Description :</label>
+            <textarea
+              id="description"
+              formControlName="description"
+              class="form-control"
+            ></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="locationId" class="form-label"
+              >ID de l'emplacement :</label
+            >
+            <input
+              type="text"
+              id="locationId"
+              formControlName="locationId"
+              class="form-control"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Soumettre</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

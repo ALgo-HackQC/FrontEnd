@@ -4,6 +4,8 @@ import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import * as maplibregl from 'maplibre-gl';
+import { CoordonneesServiceService } from '../services/coordonnees-service.service';
+
 
 @Component({
   selector: 'app-accueil',
@@ -11,6 +13,10 @@ import * as maplibregl from 'maplibre-gl';
   styleUrls: ['./accueil.component.css'],
 })
 export class AccueilComponent {
+form: any;
+  constructor(private service: CoordonneesServiceService) {
+    this.service.getLocalisation();
+  }
   afficher_report: boolean = false;
   afficher_connexion: boolean = false;
   afficher_region: boolean = false;
@@ -22,10 +28,17 @@ export class AccueilComponent {
   enChargement = false;
 
   region: string = '';
-  currentSource: string = 'localisations'; // Garder une trace de la source actuelle
-  currentLayer: string = 'localisations';
+  currentSource: string = 'coordonnees'; // Garder une trace de la source actuelle
+  currentLayer: string = 'coordonnees';
 
   map!: maplibregl.Map;
+
+  module = {
+    name: " ",
+    type: " ",
+    description: " ",
+    locationId: 0
+  }
 
   initializeMap() {
     this.map = new maplibregl.Map({
@@ -35,19 +48,21 @@ export class AccueilComponent {
       center: [-71.208, 48.415],
       zoom: 12,
       minZoom: 0,
-      maxZoom: 14,
+      maxZoom: 20,
     });
 
     this.map.on('load', () => {
       this.addSourceAndLayer(this.currentSource, this.currentLayer); // Ajouter la source et le layer initiaux
     });
 
-    this.map.on('click', 'localisations', (e) => {
+    this.map.on('click', 'coordonnees', (e) => {
       const features = e.features;
       if (features!.length > 0) {
         const feature = features![0];
+        let nom = feature.properties['nom'];
+        console.log(nom);
         // Vous pouvez maintenant effectuer des actions en fonction de la fonctionnalité cliquée
-        this.afficher_features("PARC DES ÉRABLES - Équipement bersant à ressorts - 18 mois à 5 ans");
+        this.afficher_features(nom);
       }
     });
 
@@ -55,8 +70,11 @@ export class AccueilComponent {
       const features = e.features;
       if (features!.length > 0) {
         const feature = features![0];
+
         // Vous pouvez maintenant effectuer des actions en fonction de la fonctionnalité cliquée
-        this.afficher_features("PARC DES ÉRABLES - Équipement bersant à ressorts - 18 mois à 5 ans");
+        this.afficher_features(
+          'PARC DES ÉRABLES - Équipement bersant à ressorts - 18 mois à 5 ans'
+        );
       }
     });
   }
@@ -190,7 +208,7 @@ export class AccueilComponent {
     return caracteristiques;
   }
 
-  afficher_features(features:string){
+  afficher_features(features: string) {
     this.detailsCourants = this.parse_details(features);
     this.afficher_details = true;
   }
