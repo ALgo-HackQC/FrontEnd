@@ -7,18 +7,23 @@ import * as maplibregl from 'maplibre-gl';
 import { CoordonneesServiceService } from '../services/coordonnees-service.service';
 import { InstallationService } from '../services/installation.service';
 
-
 @Component({
   selector: 'app-accueil',
   templateUrl: './accueil.component.html',
   styleUrls: ['./accueil.component.css'],
 })
 export class AccueilComponent {
-form: any;
-  constructor(private service: CoordonneesServiceService,private serviceInstalation: InstallationService) {
+  form: any;
+  constructor(
+    private service: CoordonneesServiceService,
+    private serviceInstalation: InstallationService
+  ) {
     this.service.getLocalisation();
     // this.serviceInstalation.createLocation("test", "test", "test", 2);
   }
+
+  test = 'test';
+
   afficher_report: boolean = false;
   afficher_connexion: boolean = false;
   afficher_region: boolean = false;
@@ -33,14 +38,16 @@ form: any;
   currentSource: string = 'coordonnees'; // Garder une trace de la source actuelle
   currentLayer: string = 'coordonnees';
 
+  
+
   map!: maplibregl.Map;
 
   module = {
-    name: " ",
-    type: " ",
-    description: " ",
-    locationId: 0
-  }
+    name: ' ',
+    type: ' ',
+    description: ' ',
+    locationId: 0,
+  };
 
   initializeMap() {
     this.map = new maplibregl.Map({
@@ -210,9 +217,20 @@ form: any;
     return caracteristiques;
   }
 
-  afficher_features(features: string) {
+  afficher_features(features: string, id?: number) {
     this.detailsCourants = this.parse_details(features);
     this.afficher_details = true;
+    this.module.locationId = id!;
+    
+  }
+
+  populer_localisation() {
+    this.serviceInstalation.createLocation(
+      this.module.name,
+      this.module.type,
+      this.module.description,
+      this.module.locationId
+    );
   }
 }
 

@@ -295,7 +295,7 @@
 <!-- Button trigger modal -->
 
 <!-- Modal -->
-<!-- <div
+<div
   class="modal fade"
   id="exampleModal"
   tabindex="-1"
@@ -320,11 +320,9 @@
             <input
               type="text"
               id="name"
-              formControlName="name"
               class="form-control"
               name="name"
-              
-              
+              [(ngModel)]="module.name"
             />
           </div>
           <div class="mb-3">
@@ -332,30 +330,21 @@
             <input
               type="text"
               id="type"
-              formControlName="type"
               class="form-control"
+              name="type"
+              [(ngModel)]="module.type"
             />
           </div>
           <div class="mb-3">
             <label for="description" class="form-label">Description :</label>
             <textarea
               id="description"
-              formControlName="description"
               class="form-control"
+              name="description"
+              [(ngModel)]="module.description"
             ></textarea>
           </div>
-          <div class="mb-3">
-            <label for="locationId" class="form-label"
-              >ID de l'emplacement :</label
-            >
-            <input
-              type="text"
-              id="locationId"
-              formControlName="locationId"
-              class="form-control"
-            />
-          </div>
-          <button type="submit" class="btn btn-primary">Soumettre</button>
+          <button type="submit" (click)="populer_localisation();" class="btn btn-primary">Soumettre</button>
         </form>
       </div>
       <div class="modal-footer">
@@ -365,4 +354,4 @@
       </div>
     </div>
   </div>
-</div> -->
+</div>
