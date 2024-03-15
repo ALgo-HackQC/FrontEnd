@@ -12,15 +12,6 @@ body {
     --bs-primary: #22b5c5 !important;
 }
 
-input.form-control.recherche{
-    font-size: 14px;
-    border-radius: 20px;
-    line-height: 28px;
-    padding: 7px 16px;
-    min-width: 320px;
-    border-color: #d2d2d2;
-}
-
 input.form-control::placeholder{
     color: rgba(116, 116, 116, 0.699);
 }

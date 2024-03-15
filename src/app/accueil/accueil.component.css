@@ -75,3 +75,12 @@
     border-radius: 20px;
     padding: 12px;
 }
+
+input.form-control.recherche{
+    font-size: 14px;
+    border-radius: 20px;
+    line-height: 28px;
+    padding: 7px 16px;
+    min-width: 220px;
+    border-color: #d2d2d2;
+}
