@@ -10,34 +10,38 @@ import OSM from 'ol/source/OSM';
   styleUrls: ['./accueil.component.css']
 })
 export class AccueilComponent {
-  afficher_report:boolean = false;
-  afficher_connexion:boolean = false;
-  afficher_region:boolean = false;
-  afficher_details:boolean = false;
-  afficher_suggerer:boolean = false;
+  afficher_report: boolean = false;
+  afficher_connexion: boolean = false;
+  afficher_region: boolean = false;
+  afficher_details: boolean = true;
+  afficher_suggerer: boolean = false;
+
+  detailsCourants: Details[] = [];
 
   enChargement = false;
 
-  region:string = "";
+  region: string = "";
 
-  toggle_report(){
+  toggle_report() {
     this.afficher_report = !this.afficher_report;
   }
 
-  toggle_connexion(){
+  toggle_connexion() {
     this.afficher_connexion = !this.afficher_connexion;
   }
 
-  toggle_suggerer(){
+  toggle_suggerer() {
     this.afficher_suggerer = !this.afficher_suggerer;
   }
 
   map: Map | undefined;
 
   ngOnInit(): void {
+    // Test
+    this.detailsCourants = this.parse_details("PARC GHISLAIN-MARTINEAU - Basketball - Terrain réglementaire - 2 paniers - Pavage avec marquage");
 
     let region = localStorage.getItem('region')
-    if(region){
+    if (region) {
       this.region = region;
       this.afficher_region = false;
     } else {
@@ -58,25 +62,70 @@ export class AccueilComponent {
     });
   }
 
-  set_region(region:string){
+  set_region(region: string) {
     this.region = region;
     localStorage.setItem('region', region);
     this.afficher_region = false;
     this.save_region();
   }
 
-  save_region(){
+  save_region() {
     localStorage.setItem('region', this.region);
   }
 
-  montrer_details(id:number){
+  montrer_details(id: number) {
 
     this.afficher_details = true;
   }
 
-  cacher_details(){
+  cacher_details() {
     this.afficher_details = false;
   }
+
+
+  /* Processus d'affichage d'infos */
+
+  parse_details(features: string) {
+    let caracteristiques: Details[] = [];
+    let features_list = features.split(" - ");
+    caracteristiques.push({
+      icon: "map-marker",
+      caracteristique: "Lieu",
+      detail: features_list[0]
+    })
+    for (let i = 1; i < features_list.length; i++) {
+      let feature = features_list[i];
+      if (feature.indexOf("ans") != -1) {
+        caracteristiques.push({
+          icon: "account-check",
+          caracteristique: "Age",
+          detail: features_list[i]
+        })
+      } else if (feature.indexOf("Équipement") != -1) {
+        caracteristiques.push({
+          icon: "toolbox",
+          caracteristique: "Équipement",
+          detail: features_list[i]
+        })
+      } else {
+        caracteristiques.push({
+          icon: "information",
+          caracteristique: features_list[i],
+          detail:""
+        })
+      }
+    }
+    return caracteristiques;
+  }
+
+
+
+}
+
+interface Details {
+  icon: string,
+  caracteristique: string,
+  detail: string
 }
 
 

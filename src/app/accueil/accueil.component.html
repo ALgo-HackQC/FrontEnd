@@ -47,7 +47,7 @@
 
     <div class="card menu-amenagements" *ngIf="afficher_details">
         <div class="menu-amenagements-header">
-            <h5 class="m-0 flex-grow-1">Aménagements du parc Jean Drapeau</h5>
+            <h5 class="m-0 flex-grow-1">Aménagement de {{ detailsCourants[0].detail }}</h5>
 
             <button type="button" class="btn btn-outline-danger btn-sm" (click)="toggle_report()">Signaler</button>
             <button type="button" class="btn btn-icon btn-sm" (click)="cacher_details()"><span
@@ -56,27 +56,12 @@
         </div>
         <div>
             <div class="list-group my-2">
-                <div class="list-group-item d-flex align-items-center">
-                    <span class="icon icon-bike icon-24px"></span>
+                
+                <div class="list-group-item d-flex align-items-center" *ngFor="let detail of detailsCourants; index as i">
+                    <span class="icon icon-24px" [ngClass]="'icon-' + detail.icon"></span>
                     <div class="flex-grow-1 px-3">
-                        <h6 class="m-0">Vélo Stationnaire</h6>
-                        <p class="text-muted m-0"><small>Lorem, ipsum dolor sit amet.</small></p>
-                    </div>
-                    <span class="icon icon-alert icon-24px text-danger" data-bs-toggle="tooltip" data-bs-placement="top"
-                        data-bs-title="Tooltip on top"></span>
-                </div>
-                <div class="list-group-item d-flex align-items-center">
-                    <span class="icon icon-hand-back-left icon-24px"></span>
-                    <div class="flex-grow-1 px-3">
-                        <h6 class="m-0">Barre pull-up</h6>
-                        <p class="text-muted m-0"><small>Lorem, ipsum dolor sit amet.</small></p>
-                    </div>
-                </div>
-                <div class="list-group-item d-flex align-items-center">
-                    <span class="icon icon-table-tennis icon-24px"></span>
-                    <div class="flex-grow-1 px-3">
-                        <h6 class="m-0">Table Ping Pong</h6>
-                        <p class="text-muted m-0"><small>Lorem, ipsum dolor sit amet.</small></p>
+                        <h6 class="m-0">{{ detail.caracteristique }}</h6>
+                        <p class="text-muted m-0"><small>{{ detail.detail }}</small></p>
                     </div>
                 </div>
                 <button type="button" class="list-group-item list-group-item-action"><small><span
