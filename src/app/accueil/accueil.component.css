@@ -53,3 +53,25 @@
 .modal-region{
     background-color: #00274f; color: white;
 }
+
+.zone-logo {
+    width: 44px;
+    height: 44px;
+    background-color: white;
+    border-radius: 50%;
+    background-image: url('/assets/img/logo.png');
+    background-position: center;
+    background-size: cover;
+    border: 1px solid rgba(0, 0, 0, 0.175);
+}
+
+.suggestions-recherche {
+    position: absolute;
+    top: 60px;
+    left: 13px;
+    background-color: white;
+    max-width: 600px;
+    width: 100%;
+    border-radius: 20px;
+    padding: 12px;
+}

@@ -63,6 +63,24 @@ h1,h2,h3,h4,h5,h6{
     border-color:#1d99a7;
 }
 
+.btn-tuile {
+    padding: 10px;
+    text-align: center;
+    user-select: none;
+    transition: 0.3s;
+    border-radius: 10px;
+    user-select: none;
+}
+
+.btn-tuile:hover {
+    background-color: rgba(128, 128, 128, 0.3);
+}
+
+
+.btn-tuile>p {
+    line-height: 14px;
+}
+
 
 
 

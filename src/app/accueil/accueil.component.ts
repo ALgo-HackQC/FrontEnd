@@ -14,6 +14,10 @@ export class AccueilComponent {
   afficher_connexion:boolean = false;
   afficher_region:boolean = false;
 
+  afficher_details:boolean = false;
+
+  enChargement = false;
+
   region:string = "";
 
   toggle_report(){
@@ -53,6 +57,15 @@ export class AccueilComponent {
   set_region(region:string){
     localStorage.setItem('region', region);
     this.afficher_region = false;
+  }
+
+  montrer_details(id:number){
+
+    this.afficher_details = true;
+  }
+
+  cacher_details(){
+    this.afficher_details = false;
   }
 }
 
