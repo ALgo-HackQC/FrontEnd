@@ -10,6 +10,9 @@
                 <span class="visually-hidden">Chargement...</span>
             </div>
         </div>
+        <div style="height: 44px; border-radius:20px">
+            <p></p>
+        </div>
         <span class="flex-grow-1"></span>
         <button type="button" class="btn btn-icon btn-sm"><span class="icon icon-help-circle-outline"></span></button>
         <button class="btn btn-primary bouton-connexion" (click)="toggle_connexion()">Connexion</button>
@@ -20,21 +23,21 @@
 
 
     <style>
-        .btn-tuile{
-            padding: 10px; 
-            text-align:center;
+        .btn-tuile {
+            padding: 10px;
+            text-align: center;
             user-select: none;
             transition: 0.3s;
             border-radius: 10px;
             user-select: none;
         }
 
-        .btn-tuile:hover{
+        .btn-tuile:hover {
             background-color: rgba(128, 128, 128, 0.3);
         }
 
-        
-        .btn-tuile>p{
+
+        .btn-tuile>p {
             line-height: 14px;
         }
     </style>
@@ -75,25 +78,6 @@
     </div>
 
     <style>
-        .menu-amenagements {
-            position: absolute;
-            bottom: 20px;
-            left: 13px;
-            background-color: white;
-            max-width: 800px;
-            width: 100%;
-            min-height: 500px;
-            border-radius: 20px;
-            padding: 12px;
-        }
-
-        .menu-amenagements-header {
-            width: 100%;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
     </style>
 
     <div class="card menu-amenagements">
@@ -218,3 +202,26 @@
         </div>
     </div>
 </div>
+
+
+
+
+<div class="modal-bg modal-bg-bleu" *ngIf="afficher_region">
+    <div class="modal-contenu modal-region">
+        <div class="fenetre-contenu text-center">
+            <span class="icon icon-map-marker-circle icon-48px"></span>
+            <p class="display-6">Sélectionnez votre région</p>
+            <div class="list-group my-3">
+                <button type="button" class="list-group-item list-group-item-action" (click)="set_region('montreal')">Montréal</button>
+                <button type="button" class="list-group-item list-group-item-action" (click)="set_region('shawinigan')">Shawinigan</button>
+                <button type="button" class="list-group-item list-group-item-action" (click)="set_region('shawinigan')">Shawinigan</button>
+                <button type="button" class="list-group-item list-group-item-action" (click)="set_region('shawinigan')">Shawinigan</button>
+                <button type="button" class="list-group-item list-group-item-action" (click)="set_region('shawinigan')">Shawinigan</button>
+              </div>
+              <p class="m-0"><small>(La région peut être changée plus tard)</small></p>
+        </div>
+    </div>
+</div>
+
+<style>
+</style>

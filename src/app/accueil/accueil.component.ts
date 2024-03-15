@@ -12,6 +12,9 @@ import OSM from 'ol/source/OSM';
 export class AccueilComponent {
   afficher_report:boolean = false;
   afficher_connexion:boolean = false;
+  afficher_region:boolean = false;
+
+  region:string = "";
 
   toggle_report(){
     this.afficher_report = !this.afficher_report;
@@ -24,6 +27,15 @@ export class AccueilComponent {
   map: Map | undefined;
 
   ngOnInit(): void {
+
+    let region = localStorage.getItem('region')
+    if(region){
+      this.region = region;
+      this.afficher_region = false;
+    } else {
+      this.afficher_region = true;
+    }
+
     this.map = new Map({
       view: new View({
         center: [0, 0],
@@ -36,6 +48,11 @@ export class AccueilComponent {
       ],
       target: 'ol-map'
     });
+  }
+
+  set_region(region:string){
+    localStorage.setItem('region', region);
+    this.afficher_region = false;
   }
 }
 
