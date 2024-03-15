@@ -14,7 +14,7 @@ export class AccueilComponent {
   afficher_connexion:boolean = false;
   afficher_region:boolean = false;
   afficher_details:boolean = false;
-  afficher_suggerer:boolean = true;
+  afficher_suggerer:boolean = false;
 
   enChargement = false;
 
@@ -26,6 +26,10 @@ export class AccueilComponent {
 
   toggle_connexion(){
     this.afficher_connexion = !this.afficher_connexion;
+  }
+
+  toggle_suggerer(){
+    this.afficher_suggerer = !this.afficher_suggerer;
   }
 
   map: Map | undefined;

@@ -9,7 +9,7 @@
                 <span class="visually-hidden">Chargement...</span>
             </div>
         </div>
-        <select [(ngModel)]="region" (change)="save_region()" class="form-select" style="max-width: 120px; font-size: 14px; color: gray;border-radius: 20px; padding: 10px 15px 11px 15px;">
+        <select [(ngModel)]="region" (change)="save_region()" class="form-select selection-region">
             <option value="montreal">Montréal</option>
             <option value="shawinigan">Shawinigan</option>
           </select>
@@ -43,7 +43,7 @@
         </div-->
     </div>
 
-    <div id="ol-map" class="map-container" style="width: 100%; height:100%"></div>
+    <div id="ol-map" class="map-container" style="width: 100vw; height:100vh"></div>
 
     <div class="card menu-amenagements" *ngIf="afficher_details">
         <div class="menu-amenagements-header">
@@ -128,20 +128,8 @@
         </div>
         <div class="fenetre-contenu">
             <form>
-                <p class="mb-1"><small>Quelle est l'infrastructure affectée?</small></p>
+                <p class="mb-1"><small>L'infrastructure affectée?</small></p>
                 <ul class="list-group mb-3">
-                    <li class="list-group-item">
-                        <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="firstRadio"
-                            checked>
-                        <label class="form-check-label" for="firstRadio"><span class="icon icon-bike mx-1"></span>Vélo
-                            Stationnaire</label>
-                    </li>
-                    <li class="list-group-item">
-                        <input class="form-check-input me-1" type="radio" name="listGroupRadio" value=""
-                            id="secondRadio">
-                        <label class="form-check-label" for="secondRadio"><span
-                                class="icon icon-hand-back-left mx-1"></span>Barre pull-up</label>
-                    </li>
                     <li class="list-group-item">
                         <input class="form-check-input me-1" type="radio" name="listGroupRadio" value=""
                             id="thirdRadio">
@@ -169,6 +157,29 @@
     </div>
 </div>
 
+<div class="modal-bg modal-bg-success" *ngIf="afficher_suggerer">
+    <div class="modal-contenu">
+        <div class="modal-tete text-bg-success">
+            <button type="button" class="btn btn-icon btn-sm" (click)="toggle_suggerer()"><span
+                    class="icon icon-close"></span></button>
+            <span class="icon icon-creation icon-36px"></span>
+            <p class="display-6">Suggérer une instalation</p>
+        </div>
+        <div class="fenetre-contenu">
+            <form>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label"><small>Nom de l'installation</small></label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="description_probleme" class="form-label"><small>Description</small></label>
+                    <textarea class="form-control" id="description_probleme" rows="3"></textarea>
+                </div>
+                <button class="btn btn-success w-100">Envoyer</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 
@@ -194,5 +205,8 @@
     </div>
 </div>
 
-<style>
-</style>
+<button class="btn btn-primary bouton-suggerer" (click)="toggle_suggerer()">
+    <span class="icon icon-lightbulb-on"></span>
+  </button>
+
+  

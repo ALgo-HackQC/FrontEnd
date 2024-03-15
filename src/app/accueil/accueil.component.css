@@ -27,8 +27,10 @@
     gap: 5px;
 }
 
-.tete-carte .spinner-border{
-    position: absolute; right:16px; top:14px
+.tete-carte .spinner-border {
+    position: absolute;
+    right: 16px;
+    top: 14px
 }
 
 .contenu-carte {
@@ -43,15 +45,16 @@
     align-items: center;
     padding: 0 15px;
     gap: 5px;
-    position: absolute; 
-    top:0;
-    left:0;
-    right:0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 10;
 }
 
-.modal-region{
-    background-color: #00274f; color: white;
+.modal-region {
+    background-color: #00274f;
+    color: white;
 }
 
 .zone-logo {
@@ -76,7 +79,7 @@
     padding: 12px;
 }
 
-input.form-control.recherche{
+input.form-control.recherche {
     font-size: 14px;
     border-radius: 20px;
     line-height: 28px;
@@ -84,3 +87,20 @@ input.form-control.recherche{
     min-width: 220px;
     border-color: #d2d2d2;
 }
+
+.selection-region {
+    max-width: 120px;
+    font-size: 14px;
+    color: gray;
+    border-radius: 20px;
+    padding: 10px 15px 11px 15px;
+}
+
+button.btn.bouton-suggerer {
+    position: fixed;
+    right: 0px;
+    bottom: 80px;
+    border-radius: 5px 0 0 5px;
+    padding: 5px 8px;
+    font-size: 22px;
+  }

@@ -7,12 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
 
-  visionMobile:boolean = false;
-
-  toggle_visionMobile(){
-    this.visionMobile = !this.visionMobile;
-  }
-
   ngOnInit(): void {
    
   }
