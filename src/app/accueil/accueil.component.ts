@@ -5,6 +5,7 @@ import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import * as maplibregl from 'maplibre-gl';
 import { CoordonneesServiceService } from '../services/coordonnees-service.service';
+import { InstallationService } from '../services/installation.service';
 
 
 @Component({
@@ -14,8 +15,9 @@ import { CoordonneesServiceService } from '../services/coordonnees-service.servi
 })
 export class AccueilComponent {
 form: any;
-  constructor(private service: CoordonneesServiceService) {
+  constructor(private service: CoordonneesServiceService,private serviceInstalation: InstallationService) {
     this.service.getLocalisation();
+    // this.serviceInstalation.createLocation("test", "test", "test", 2);
   }
   afficher_report: boolean = false;
   afficher_connexion: boolean = false;
