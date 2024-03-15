@@ -70,8 +70,9 @@ export class AccueilComponent {
         const feature = features![0];
         let nom = feature.properties['nom'];
         console.log(nom);
+        let id = feature.properties['id'];
         // Vous pouvez maintenant effectuer des actions en fonction de la fonctionnalité cliquée
-        this.afficher_features(nom);
+        this.afficher_features(nom, id);
       }
     });
 
