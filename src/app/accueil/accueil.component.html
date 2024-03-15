@@ -10,7 +10,7 @@
             </div>
         </div>
         <select [(ngModel)]="region" (change)="save_region()" class="form-select selection-region">
-            <option value="montreal">Montréal</option>
+            <option value="saguenay">Saguenay</option>
             <option value="shawinigan">Shawinigan</option>
           </select>
         <div style="height: 44px; border-radius:20px">
@@ -175,13 +175,7 @@
             <p class="display-6">Sélectionnez votre région</p>
             <div class="list-group my-3">
                 <button type="button" class="list-group-item list-group-item-action"
-                    (click)="set_region('montreal')">Montréal</button>
-                <button type="button" class="list-group-item list-group-item-action"
-                    (click)="set_region('shawinigan')">Shawinigan</button>
-                <button type="button" class="list-group-item list-group-item-action"
-                    (click)="set_region('shawinigan')">Shawinigan</button>
-                <button type="button" class="list-group-item list-group-item-action"
-                    (click)="set_region('shawinigan')">Shawinigan</button>
+                    (click)="set_region('saguenay')">Saguenay</button>
                 <button type="button" class="list-group-item list-group-item-action"
                     (click)="set_region('shawinigan')">Shawinigan</button>
             </div>

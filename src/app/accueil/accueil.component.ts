@@ -14,7 +14,7 @@ export class AccueilComponent {
   afficher_report: boolean = false;
   afficher_connexion: boolean = false;
   afficher_region: boolean = false;
-  afficher_details: boolean = true;
+  afficher_details: boolean = false;
   afficher_suggerer: boolean = false;
 
   detailsCourants: Details[] = [];
@@ -47,7 +47,7 @@ export class AccueilComponent {
       if (features!.length > 0) {
         const feature = features![0];
         // Vous pouvez maintenant effectuer des actions en fonction de la fonctionnalité cliquée
-        console.log('Feature clicked:', feature);
+        this.afficher_features("PARC DES ÉRABLES - Équipement bersant à ressorts - 18 mois à 5 ans");
       }
     });
 
@@ -56,7 +56,7 @@ export class AccueilComponent {
       if (features!.length > 0) {
         const feature = features![0];
         // Vous pouvez maintenant effectuer des actions en fonction de la fonctionnalité cliquée
-        console.log('Feature clicked:', feature);
+        this.afficher_features("PARC DES ÉRABLES - Équipement bersant à ressorts - 18 mois à 5 ans");
       }
     });
   }
@@ -113,9 +113,6 @@ export class AccueilComponent {
   ngOnInit(): void {
     this.initializeMap();
     // Test
-    this.detailsCourants = this.parse_details(
-      'PARC GHISLAIN-MARTINEAU - Basketball - Terrain réglementaire - 2 paniers - Pavage avec marquage'
-    );
 
     let region = localStorage.getItem('region');
     if (region) {
@@ -191,6 +188,11 @@ export class AccueilComponent {
       }
     }
     return caracteristiques;
+  }
+
+  afficher_features(features:string){
+    this.detailsCourants = this.parse_details(features);
+    this.afficher_details = true;
   }
 }
 
