@@ -3,11 +3,12 @@ import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
+import * as maplibregl from 'maplibre-gl';
 
 @Component({
   selector: 'app-accueil',
   templateUrl: './accueil.component.html',
-  styleUrls: ['./accueil.component.css']
+  styleUrls: ['./accueil.component.css'],
 })
 export class AccueilComponent {
   afficher_report: boolean = false;
@@ -20,7 +21,80 @@ export class AccueilComponent {
 
   enChargement = false;
 
-  region: string = "";
+  region: string = '';
+  currentSource: string = 'localisations'; // Garder une trace de la source actuelle
+  currentLayer: string = 'localisations';
+
+  map!: maplibregl.Map;
+
+  initializeMap() {
+    this.map = new maplibregl.Map({
+      container: 'ol-map',
+      style:
+        'https://api.maptiler.com/maps/basic-v2/style.json?key=5KJA8YAGNso1aVnlBTMc',
+      center: [-71.208, 48.415],
+      zoom: 12,
+      minZoom: 0,
+      maxZoom: 14,
+    });
+
+    this.map.on('load', () => {
+      this.addSourceAndLayer(this.currentSource, this.currentLayer); // Ajouter la source et le layer initiaux
+    });
+
+    this.map.on('click', 'localisations', (e) => {
+      const features = e.features;
+      if (features!.length > 0) {
+        const feature = features![0];
+        // Vous pouvez maintenant effectuer des actions en fonction de la fonctionnalité cliquée
+        console.log('Feature clicked:', feature);
+      }
+    });
+
+    this.map.on('click', 'saguenay', (e) => {
+      const features = e.features;
+      if (features!.length > 0) {
+        const feature = features![0];
+        // Vous pouvez maintenant effectuer des actions en fonction de la fonctionnalité cliquée
+        console.log('Feature clicked:', feature);
+      }
+    });
+  }
+
+  addSourceAndLayer(source: string, layer: string) {
+    // Effacer la source et le layer actuels
+    if (this.map.getSource(this.currentSource)) {
+      this.map.removeLayer(this.currentLayer);
+      this.map.removeSource(this.currentSource);
+    }
+
+    // Ajouter la nouvelle source et le nouveau layer
+    this.map.addSource(source, {
+      type: 'vector',
+      url: `http://127.0.0.1:3000/${source}`,
+      tiles: [`http://127.0.0.1:3000/${source}/{z}/{x}/{y}`],
+      minzoom: 0,
+      maxzoom: 14,
+    });
+
+    this.map.addLayer({
+      id: layer,
+      source: source,
+      'source-layer': layer,
+      type: 'circle',
+      paint: {
+        'circle-radius': 8,
+        'circle-color': '#ff0000',
+        'circle-opacity': 0.8,
+        'circle-stroke-color': '#ffffff',
+        'circle-stroke-width': 1,
+      },
+    });
+
+    // Mettre à jour les valeurs actuelles
+    this.currentSource = source;
+    this.currentLayer = layer;
+  }
 
   toggle_report() {
     this.afficher_report = !this.afficher_report;
@@ -34,13 +108,16 @@ export class AccueilComponent {
     this.afficher_suggerer = !this.afficher_suggerer;
   }
 
-  map: Map | undefined;
+  // map2: Map | undefined;
 
   ngOnInit(): void {
+    this.initializeMap();
     // Test
-    this.detailsCourants = this.parse_details("PARC GHISLAIN-MARTINEAU - Basketball - Terrain réglementaire - 2 paniers - Pavage avec marquage");
+    this.detailsCourants = this.parse_details(
+      'PARC GHISLAIN-MARTINEAU - Basketball - Terrain réglementaire - 2 paniers - Pavage avec marquage'
+    );
 
-    let region = localStorage.getItem('region')
+    let region = localStorage.getItem('region');
     if (region) {
       this.region = region;
       this.afficher_region = false;
@@ -48,18 +125,18 @@ export class AccueilComponent {
       this.afficher_region = true;
     }
 
-    this.map = new Map({
-      view: new View({
-        center: [0, 0],
-        zoom: 1,
-      }),
-      layers: [
-        new TileLayer({
-          source: new OSM(),
-        }),
-      ],
-      target: 'ol-map'
-    });
+    // this.map2 = new Map({
+    //   view: new View({
+    //     center: [0, 0],
+    //     zoom: 1,
+    //   }),
+    //   layers: [
+    //     new TileLayer({
+    //       source: new OSM(),
+    //     }),
+    //   ],
+    //   target: 'ol-map',
+    // });
   }
 
   set_region(region: string) {
@@ -74,7 +151,6 @@ export class AccueilComponent {
   }
 
   montrer_details(id: number) {
-
     this.afficher_details = true;
   }
 
@@ -82,50 +158,44 @@ export class AccueilComponent {
     this.afficher_details = false;
   }
 
-
   /* Processus d'affichage d'infos */
 
   parse_details(features: string) {
     let caracteristiques: Details[] = [];
-    let features_list = features.split(" - ");
+    let features_list = features.split(' - ');
     caracteristiques.push({
-      icon: "map-marker",
-      caracteristique: "Lieu",
-      detail: features_list[0]
-    })
+      icon: 'map-marker',
+      caracteristique: 'Lieu',
+      detail: features_list[0],
+    });
     for (let i = 1; i < features_list.length; i++) {
       let feature = features_list[i];
-      if (feature.indexOf("ans") != -1) {
+      if (feature.indexOf('ans') != -1) {
         caracteristiques.push({
-          icon: "account-check",
-          caracteristique: "Age",
-          detail: features_list[i]
-        })
-      } else if (feature.indexOf("Équipement") != -1) {
+          icon: 'account-check',
+          caracteristique: 'Age',
+          detail: features_list[i],
+        });
+      } else if (feature.indexOf('Équipement') != -1) {
         caracteristiques.push({
-          icon: "toolbox",
-          caracteristique: "Équipement",
-          detail: features_list[i]
-        })
+          icon: 'toolbox',
+          caracteristique: 'Équipement',
+          detail: features_list[i],
+        });
       } else {
         caracteristiques.push({
-          icon: "information",
+          icon: 'information',
           caracteristique: features_list[i],
-          detail:""
-        })
+          detail: '',
+        });
       }
     }
     return caracteristiques;
   }
-
-
-
 }
 
 interface Details {
-  icon: string,
-  caracteristique: string,
-  detail: string
+  icon: string;
+  caracteristique: string;
+  detail: string;
 }
-
-
